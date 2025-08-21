@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -e
+
+# Simple configure script for check_rtl
+
+CC=${CC:-gcc}
+
+if ! command -v "$CC" >/dev/null 2>&1; then
+  echo "Error: C compiler '$CC' not found." >&2
+  exit 1
+fi
+
+if ! command -v pkg-config >/dev/null 2>&1; then
+  echo "Error: pkg-config not found. Please install it." >&2
+  exit 1
+fi
+
+if ! pkg-config --exists librtlsdr; then
+  echo "Error: librtlsdr development files not found." >&2
+  exit 1
+fi
+
+PKG_CFLAGS=$(pkg-config --cflags librtlsdr)
+PKG_LIBS=$(pkg-config --libs librtlsdr)
+
+cat > config.mk <<CONFIG
+CC = $CC
+CFLAGS = -Wall -O2 $PKG_CFLAGS
+LIBS = $PKG_LIBS
+CONFIG
+
+echo "Configuration complete. Run 'make' to build."

@@ -1,7 +1,9 @@
 .RECIPEPREFIX = >
-CC = gcc
-CFLAGS = -Wall -O2
-LIBS = -lrtlsdr
+-include config.mk
+
+CC ?= gcc
+CFLAGS ?= -Wall -O2
+LIBS ?= -lrtlsdr
 
 TARGET = check_rtl
 SRC = $(TARGET).c

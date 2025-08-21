@@ -8,12 +8,23 @@ Install build dependencies (Ubuntu):
 
 ```bash
 sudo apt-get update
-sudo apt-get install -y librtlsdr-dev build-essential
+sudo apt-get install -y librtlsdr-dev build-essential pkg-config
 ```
 
 ## Build
 
-Compile the program using the provided Makefile:
+First, run the configuration script to verify dependencies and generate build
+settings:
+
+```bash
+./configure
+```
+
+This will create a `config.mk` file with the appropriate compiler and linker
+flags. You can choose a different compiler by setting `CC` when invoking the
+script, e.g. `CC=clang ./configure`.
+
+Compile the program using the generated settings:
 
 ```bash
 make
